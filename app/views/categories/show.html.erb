@@ -1,7 +1,19 @@
-<h1><%= @category.title %></h1>
+<h2><%= @category.title %></h2>
 
 <ul>
-<% @category.items.each do |item| %>
-    <li><%= link_to item.title, item_path(item) %></li>
-<% end %>
+  <% @items.each do |item| %>
+    <li><%= item.title %> - $<%= item.price.to_f/100 %></li>
+      <% if user_signed_in? %>
+        <%= form_tag 'line_items/#{item.id}' do %>
+        <%= submit_tag 'Add to Cart' %>
+      <% end %>
+    <% end %>
+  <% end %>
 </ul>
+
+
+<!-- Action view for_tag helpers syntax -->
+
+<!-- <%= form_tag('/posts/#{post.id}') do %>
+  <div><%= submit_tag 'Save' %></div>
+<% end %>
