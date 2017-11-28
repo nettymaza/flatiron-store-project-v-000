@@ -26,10 +26,13 @@ class Cart < ActiveRecord::Base
 
   def checkout
     self.status = "submitted"
-    change_inventory
+    self.save
+    user.current_cart = nil
+    user.save
+    update_inventory
   end
 
-  def change_inventory
+  def update_inventory
     if self.status = "submitted"
       self.line_items.each do |line_item|
         line_item.item.inventory -= line_item.quantity
